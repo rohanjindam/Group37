@@ -1,5 +1,6 @@
 package core;
 
+import org.checkerframework.common.reflection.qual.NewInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
@@ -97,6 +98,7 @@ public class TestFactory
 
         try
         {
+
             driver.manage().window().maximize();
             System.out.println("Browser windows maximized.");
             System.out.println("getting URL");
@@ -146,6 +148,7 @@ public class TestFactory
                 driver.findElement(By.xpath("//button[@data-qa='login-button']")).click();
                 System.out.println("Login button clicked");
                 PageWaitClass.waitForPageLoad();
+
             }
             else
                 System.out.println("Login button is not displayed");
@@ -167,13 +170,18 @@ public class TestFactory
             {
                 wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='modal-content']//input[@type='search']")));
                 System.out.println("Select Bank page displayed");
+
+                Thread.sleep(3000);
                 driver.findElement(By.xpath("//div[@class='modal-content']//input[@type='search']")).clear();
                 driver.findElement(By.xpath("//div[@class='modal-content']//input[@type='search']")).sendKeys(selectBankName);
+                PageWaitClass.waitForPageLoad();
                 System.out.println("Entered Bank Name in Search bar");
+                PageWaitClass.waitForPageLoad();
             }
             else
                 System.out.println("Select Bank Page / Search bar not displayed");
-
+            PageWaitClass.waitForPageLoad();
+            //Thread.sleep(3000);
             driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
             if(driver.findElement(By.xpath("//tbody/tr/td[2]")).getText().equalsIgnoreCase(selectBankName))
             {
@@ -187,6 +195,7 @@ public class TestFactory
                     System.out.println("Selected Bank is : " + bankTitle);
                 }
             }
+
         }
         catch (Exception e)
         {

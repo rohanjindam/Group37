@@ -1,6 +1,5 @@
 package core;
 
-import org.checkerframework.common.reflection.qual.NewInstance;
 import org.openqa.selenium.By;
 import org.openqa.selenium.PageLoadStrategy;
 import org.openqa.selenium.WebDriver;
@@ -9,6 +8,7 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.tracing.opentelemetry.SeleniumSpanExporter;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -44,8 +44,14 @@ public class TestFactory
     public static WebElement WE_loginButton;
     @FindBy (xpath = "//select[@id='roleList']")
     public static WebElement WE_userType;
-    @FindBy (xpath = "//*[@id=\"dlui-app-root\"]//ul[@class='breadcrumb']/li[1]")
-    public static WebElement WE_bankTitle;
+    @FindBy (xpath = "//a[@class='prefillText'][contains(.,'Pre-fill BBT')]")
+    public static WebElement WE_preFillBBTText;
+    @FindBy (xpath = "//div[@class='modal-content']//input[@type='search']")
+    public static WebElement WE_searchBank;
+    @FindBy (xpath = "//tbody/tr/td[2]")
+    public static WebElement WE_selectSearchedBank;
+    @FindBy (xpath = "//ul[@class='breadcrumb']/li[1]")
+    public static WebElement WE_actualBankTitle;
 
     public TestFactory()
     {
@@ -98,7 +104,7 @@ public class TestFactory
 
         try
         {
-
+            TestFactory objTestFactory = new TestFactory();
             driver.manage().window().maximize();
             System.out.println("Browser windows maximized.");
             System.out.println("getting URL");
@@ -106,49 +112,30 @@ public class TestFactory
             System.out.println("URL fetched and entered in URL address bar");
             PageWaitClass.waitForPageLoad();
 
-            /*Select select = new Select(WE_userType);
+            Select select = new Select(WE_userType);
             if(WE_userType.isDisplayed())
             {
                 select.selectByVisibleText(userType);
+                PageWaitClass.waitForPageLoad();
                 System.out.println("User Type is selected from Dropdown");
             }
             else
                 System.out.println("Select User Type Dropdown is not displayed");
 
+            WE_preFillBBTText.click();
+            PageWaitClass.waitForPageLoad();
             WE_userID.sendKeys(userID);
+            PageWaitClass.waitForPageLoad();
             WE_firstName.sendKeys(firstName);
-            WE_lastName.sendKeys(lastName);*/
-
-            Select select = new Select(driver.findElement(By.xpath("//select[@id='roleList']")));
-            if(driver.findElement(By.xpath("//select[@id='roleList']")).isDisplayed()){
-                select.selectByVisibleText(userType);
-                System.out.println("User Type is selected");
-            }
-            else
-                System.out.println("Dropdown is not displayed to select user type");
-
             PageWaitClass.waitForPageLoad();
-            driver.findElement(By.xpath("//a[@class='prefillText'][contains(.,'Pre-fill BBT')]")).click();
+            WE_lastName.sendKeys(lastName);
             PageWaitClass.waitForPageLoad();
 
-            driver.findElement(By.xpath("//input[@placeholder='userId']")).clear();
-            driver.findElement(By.xpath("//input[@placeholder='userId']")).sendKeys(userID);
-            PageWaitClass.waitForPageLoad();
-
-            driver.findElement(By.xpath("//input[@placeholder='firstName']")).clear();
-            driver.findElement(By.xpath("//input[@placeholder='firstName']")).sendKeys(firstName);
-            PageWaitClass.waitForPageLoad();
-
-            driver.findElement(By.xpath("//input[@placeholder='lastName']")).clear();
-            driver.findElement(By.xpath("//input[@placeholder='lastName']")).sendKeys(lastName);
-            PageWaitClass.waitForPageLoad();
-
-            if(driver.findElement(By.xpath("//button[@data-qa='login-button']")).isDisplayed())
+            if(WE_loginButton.isDisplayed())
             {
-                driver.findElement(By.xpath("//button[@data-qa='login-button']")).click();
+                WE_loginButton.click();
                 System.out.println("Login button clicked");
                 PageWaitClass.waitForPageLoad();
-
             }
             else
                 System.out.println("Login button is not displayed");
@@ -156,46 +143,48 @@ public class TestFactory
             driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
 
             String title = driver.getTitle();
-            if(title.equalsIgnoreCase("Deposit Line")){
+            if(title.equalsIgnoreCase("Deposit Line"))
+            {
                 System.out.println("Page Title is : " + title);
                 System.out.println("User Login Successful");
             }
-            else {
+            else
                 System.out.println("Page Title is not matching, Login Fails");
-            }
 
             driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000)) ;
 
-            if(!driver.findElement(By.xpath("//div[@class='modal-content']//input[@type='search']")).isDisplayed())
+            if(!WE_searchBank.isDisplayed())
             {
-                wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@class='modal-content']//input[@type='search']")));
+                wait.until(ExpectedConditions.visibilityOf(WE_searchBank));
                 System.out.println("Select Bank page displayed");
-
-                Thread.sleep(3000);
-                driver.findElement(By.xpath("//div[@class='modal-content']//input[@type='search']")).clear();
-                driver.findElement(By.xpath("//div[@class='modal-content']//input[@type='search']")).sendKeys(selectBankName);
+                WE_searchBank.clear();
+                PageWaitClass.waitForPageLoad();
+                WE_searchBank.sendKeys(selectBankName);
                 PageWaitClass.waitForPageLoad();
                 System.out.println("Entered Bank Name in Search bar");
-                PageWaitClass.waitForPageLoad();
             }
             else
                 System.out.println("Select Bank Page / Search bar not displayed");
-            PageWaitClass.waitForPageLoad();
-            //Thread.sleep(3000);
+
             driver.manage().timeouts().implicitlyWait(Duration.ofMillis(5000));
-            if(driver.findElement(By.xpath("//tbody/tr/td[2]")).getText().equalsIgnoreCase(selectBankName))
+
+            if(WE_selectSearchedBank.getText().equalsIgnoreCase(selectBankName))
             {
-                driver.findElement(By.xpath("//tbody/tr/td[2]")).click();
+                WE_selectSearchedBank.click();
+                PageWaitClass.waitForPageLoad();
                 System.out.println("Bank Selected from the list");
 
-                String actualBankName = driver.findElement(By.xpath("//ul[@class='breadcrumb']/li[1]")).getText();
+                String actualBankName = WE_actualBankTitle.getText();
                 if(actualBankName.equals(bankTitle))
                 {
                     System.out.println("Desired Bank Selected");
-                    System.out.println("Selected Bank is : " + bankTitle);
+                    System.out.println("Selected Bank is : " + actualBankName);
                 }
+                else
+                    System.out.println("Wrong Bank Selected");
             }
-
+            else
+                System.out.println("Searched Bank Name is not in the List, Please Check..");
         }
         catch (Exception e)
         {

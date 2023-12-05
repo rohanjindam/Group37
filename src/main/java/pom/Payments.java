@@ -5,9 +5,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.ExpectedCondition;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import utils.PageWaitClass;
 import utils.TestConfig;
 
@@ -16,17 +13,58 @@ import java.util.List;
 public class Payments extends TestFactory
 {
 
+    @FindBy(xpath = "//a[@href='/app/config-tool/payments']")
+    public static WebElement tab_Payment;
+    @FindBy(xpath ="(//input[@role='combobox'])[1]")
+    public static WebElement  EnableAutoPayment;
+
+    @FindBy(xpath ="//label[contains(text(),'Auto-Payment Processing Time? ')]/../input")
+    public static WebElement PaymentProcessingTime ;
+
     @FindBy(xpath ="//input[@placeholder='Enter Your Installments']")
     public static WebElement Installment ;
 
     @FindBy(xpath = "//input[@placeholder='Enter DDA Account Balance']")
     public static WebElement  DAAAccountBalance;
 
-    @FindBy(xpath = "//label[contains(text(),'Enable Feature?')]/../ng-select")
+    @FindBy(xpath = "(//input[@role='combobox'])[2]")
     public static WebElement EnableFeature;
 
     @FindBy(xpath ="//input[@placeholder='Enter Your Payment']")
     public static WebElement TriggerPaymentRetry ;
+
+
+//Force Payment Feature
+
+    @FindBy(xpath = "(//input[@role='combobox'])[3]")
+    public static WebElement LoanAccountBalance;
+
+    @FindBy(xpath = "//input[@placeholder='Enter Specify Numbers of Days']")
+    public static WebElement DatePastDue_LoanAccount;
+
+    @FindBy(xpath = "(//input[@role='combobox'])[4]")
+    public static WebElement  DAAAccountCDOD;
+
+    @FindBy(xpath = "//input[@placeholder='Enter Specify Numbers']")
+    public static WebElement DatePastDue_DDAAccount;
+
+    @FindBy(xpath = "(//input[@role='combobox'])[5]")
+    public static WebElement  DAAAccountBalance_Status;
+
+    @FindBy(xpath = "//label[contains(text(),'Specify the STVL SDEK Value(s) that represent Closed in DDA ')]/../input")
+    public static WebElement ClosedinDDA;
+
+    //Charge-Off Feature
+
+    @FindBy(xpath = "(//input[@role='combobox'])[6]")
+    public static WebElement LaonSystem;
+
+    @FindBy(xpath = "(//input[@role='combobox'])[7]")
+    public static WebElement  Purgetiming;
+
+    @FindBy(xpath = "//input[@placeholder='Enter account status']")
+    public static WebElement ChargeoffStatus;
+
 
 
     public Payments()
@@ -55,16 +93,14 @@ public class Payments extends TestFactory
     public void paymentPage() {
         PageWaitClass.waitForPageLoad();
         System.out.println("Click on the payment screen");
-        //tab_Payment.click();
-
-        driver.findElement(By.xpath("//a[@href='/app/config-tool/payments']")).click();
+        tab_Payment.click();
         System.out.println("Clicked");
     }
 
     public void paymentDetail(){
         System.out.println("Enter Payment Detail - Continuous Usage Treatment Options");
 
-        driver.findElement(By.xpath("(//input[@role='combobox'])[1]")).sendKeys(AutoPayment);
+        EnableAutoPayment.sendKeys(AutoPayment);
         System.out.println("Yes Value configured ");
         List<WebElement> AutoPaymentList = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : AutoPaymentList){
@@ -77,14 +113,15 @@ public class Payments extends TestFactory
 
         }
         System.out.println("Auto Payment : Option is selected ");
-        driver.findElement(By.xpath("//label[contains(text(),'Auto-Payment Processing Time? ')]/../input")).sendKeys(PaymentProcessTime);
+        PaymentProcessingTime.sendKeys(PaymentProcessTime);
 
         System.out.println("Payment Design ");
-        driver.findElement(By.xpath("//input[@placeholder='Enter Your Installments']")).sendKeys(PaymentInstallment);
-        driver.findElement(By.xpath("//input[@placeholder='Enter DDA Account Balance']")).sendKeys(PaymentDAAAccountBalance);
+        Installment.sendKeys(PaymentInstallment);
+        DAAAccountBalance.sendKeys(PaymentDAAAccountBalance);
+
 
         System.out.println("Auto-Payment Retry Feature");
-        driver.findElement(By.xpath("(//input[@role='combobox'])[2]")).sendKeys(PaymentEnableFeature);
+        EnableFeature.sendKeys(PaymentEnableFeature);
         System.out.println("Yes Value configured ");
         List<WebElement> PaymentEnableFeatureList = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : PaymentEnableFeatureList){
@@ -95,10 +132,11 @@ public class Payments extends TestFactory
             }
         }
         System.out.println("Auto-Payment Retry Feature : Enable Feature Option is selected ");
-        driver.findElement(By.xpath("//input[@placeholder='Enter Your Payment']")).sendKeys(PaymentTriggerPaymentRetry);
+        TriggerPaymentRetry.sendKeys(PaymentTriggerPaymentRetry);
+
 
         System.out.println("Force Payment Feature");
-        driver.findElement(By.xpath("(//input[@role='combobox'])[3]")).sendKeys(PaymentLoanAccountBalance);
+        LoanAccountBalance.sendKeys(PaymentLoanAccountBalance);
         System.out.println("Yes Value configured ");
         List<WebElement> FP1 = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : FP1){
@@ -109,10 +147,9 @@ public class Payments extends TestFactory
             }
         }
         System.out.println("FP1 Option is selected ");
-        driver.findElement(By.xpath("//input[@placeholder='Enter Specify Numbers of Days']")).sendKeys(PaymentDatePastDue_LoanAccount);
+        DatePastDue_LoanAccount.sendKeys(PaymentDatePastDue_LoanAccount);
 
-
-        driver.findElement(By.xpath("(//input[@role='combobox'])[4]")).sendKeys(PaymentDAAAccountCDOD);
+        DAAAccountCDOD.sendKeys(PaymentDAAAccountCDOD);
         System.out.println("Yes Value configured ");
         List<WebElement> FP2 = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : FP2){
@@ -123,10 +160,9 @@ public class Payments extends TestFactory
             }
         }
         System.out.println("FP2 Option is selected ");
-        driver.findElement(By.xpath("//input[@placeholder='Enter Specify Numbers']")).sendKeys(PaymentDatePastDue_DDAAccount);
+        DatePastDue_DDAAccount.sendKeys(PaymentDatePastDue_DDAAccount);
 
-
-        driver.findElement(By.xpath("(//input[@role='combobox'])[5]")).sendKeys(PaymentDAAAccountBalance_Status);
+        DAAAccountBalance_Status.sendKeys(PaymentDAAAccountBalance_Status);
         System.out.println("Yes Value configured ");
         List<WebElement> FP3 = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : FP3){
@@ -137,11 +173,11 @@ public class Payments extends TestFactory
             }
         }
         System.out.println("FP3 Option is selected ");
-        driver.findElement(By.xpath("//label[contains(text(),'Specify the STVL SDEK Value(s) that represent Closed in DDA ')]/../input")).sendKeys(PaymentClosedinDDA);
+        ClosedinDDA.sendKeys(PaymentClosedinDDA);
 
         System.out.println("Charge-Off Feature");
 
-        driver.findElement(By.xpath("(//input[@role='combobox'])[6]")).sendKeys(ChargeoffLaonSystem);
+        LaonSystem.sendKeys(ChargeoffLaonSystem);
         System.out.println("Yes Value configured ");
         List<WebElement> ChargeOff1 = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : ChargeOff1){
@@ -153,7 +189,7 @@ public class Payments extends TestFactory
         }
         System.out.println("Charge-Off Feature: ");
 
-        driver.findElement(By.xpath("(//input[@role='combobox'])[7]")).sendKeys(ChargeoffPurgetiming);
+        Purgetiming.sendKeys(ChargeoffPurgetiming);
         System.out.println("Yes Value configured ");
         List<WebElement> ChargeOff2 = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : ChargeOff2){
@@ -164,10 +200,9 @@ public class Payments extends TestFactory
             }
         }
         System.out.println("FP3 Option is selected ");
-        driver.findElement(By.xpath("//input[@placeholder='Enter account status']")).sendKeys(PaymentChargeoffStatus);
+        ChargeoffStatus.sendKeys(PaymentChargeoffStatus);
         driver.findElement(By.xpath("//input[@id='manual-forcepay']")).click();
         driver.findElement(By.xpath("//input[@id='manual-payment']")).click();
-
         driver.findElement(By.xpath("//button[@id='submit-button']")).click();
 
     }

@@ -62,6 +62,7 @@ public class TestFactory
         ChromeOptions options = new ChromeOptions();
         //String path = System.getProperty("user.dir");
 
+
         switch(browserName)
         {
             case "chrome":

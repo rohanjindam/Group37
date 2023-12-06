@@ -7,6 +7,8 @@ import org.testng.annotations.AfterClass;
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
+import static core.TestFactory.driver;
+
 @CucumberOptions(
         tags = "@PaymentScreen",
         features = "src/test/resources/features",
@@ -17,8 +19,12 @@ import io.cucumber.testng.CucumberOptions;
 
     public class TestRunner extends AbstractTestNGCucumberTests {
         @AfterClass
-        public static void cleanup() {
+        public static void cleanup() throws InterruptedException {
+            Thread.sleep(5000);
+            driver.quit();
             System.out.println("--- Execution Completed ---");
+
         }
+
     }
 

@@ -17,4 +17,20 @@ public class PaymentsSteps
         objPayments.paymentDetail();
     }
 
+    @Then("Navigate to Cool Off Screen")
+    public void coolOffScreenNavigation() throws Exception {
+        objPayments.coolOffPage();
+        System.out.println("Cool Off Page is loaded");
+    }
+    @And("Enter the details of Cool Off")
+    public void coolOffDetail(){
+        objPayments.coolOffPageDetail();
+    }
+
+    @Then("Submit the details")
+    public void submitDetails()
+    {
+        objPayments.submitCoolOffPageDetails();
+    }
+
 }

@@ -122,7 +122,7 @@ public class Payments extends TestFactory
 
         System.out.println("Auto-Payment Retry Feature");
         EnableFeature.sendKeys(PaymentEnableFeature);
-        System.out.println("Yes Value configured ");
+        System.out.println(" PaymentEnableFeature Value configured ");
         List<WebElement> PaymentEnableFeatureList = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : PaymentEnableFeatureList){
             if(b.getText().contains(PaymentEnableFeature)) {
@@ -137,7 +137,7 @@ public class Payments extends TestFactory
 
         System.out.println("Force Payment Feature");
         LoanAccountBalance.sendKeys(PaymentLoanAccountBalance);
-        System.out.println("Yes Value configured ");
+        System.out.println("PaymentLoanAccountBalance Value configured ");
         List<WebElement> FP1 = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : FP1){
             if(b.getText().contains(PaymentLoanAccountBalance)) {
@@ -150,7 +150,7 @@ public class Payments extends TestFactory
         DatePastDue_LoanAccount.sendKeys(PaymentDatePastDue_LoanAccount);
 
         DAAAccountCDOD.sendKeys(PaymentDAAAccountCDOD);
-        System.out.println("Yes Value configured ");
+        System.out.println("PaymentDAAAccountCDOD Value configured ");
         List<WebElement> FP2 = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : FP2){
             if(b.getText().contains(PaymentDAAAccountCDOD)) {
@@ -163,7 +163,7 @@ public class Payments extends TestFactory
         DatePastDue_DDAAccount.sendKeys(PaymentDatePastDue_DDAAccount);
 
         DAAAccountBalance_Status.sendKeys(PaymentDAAAccountBalance_Status);
-        System.out.println("Yes Value configured ");
+        System.out.println("PaymentDAAAccountBalance_Status Value configured ");
         List<WebElement> FP3 = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : FP3){
             if(b.getText().contains(PaymentDAAAccountBalance_Status)) {
@@ -178,7 +178,7 @@ public class Payments extends TestFactory
         System.out.println("Charge-Off Feature");
 
         LaonSystem.sendKeys(ChargeoffLaonSystem);
-        System.out.println("Yes Value configured ");
+        System.out.println("ChargeoffLaonSystem Value configured ");
         List<WebElement> ChargeOff1 = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : ChargeOff1){
             if(b.getText().contains(ChargeoffLaonSystem)) {
@@ -187,10 +187,10 @@ public class Payments extends TestFactory
                 break;
             }
         }
-        System.out.println("Charge-Off Feature: ");
+
 
         Purgetiming.sendKeys(ChargeoffPurgetiming);
-        System.out.println("Yes Value configured ");
+        System.out.println("ChargeoffPurgetiming Value configured ");
         List<WebElement> ChargeOff2 = driver.findElements(By.xpath("//span[@class='ng-option-label']"));
         for(WebElement b : ChargeOff2){
             if(b.getText().contains(ChargeoffPurgetiming)) {
@@ -199,7 +199,7 @@ public class Payments extends TestFactory
                 break;
             }
         }
-        System.out.println("FP3 Option is selected ");
+
         ChargeoffStatus.sendKeys(PaymentChargeoffStatus);
         driver.findElement(By.xpath("//input[@id='manual-forcepay']")).click();
         driver.findElement(By.xpath("//input[@id='manual-payment']")).click();

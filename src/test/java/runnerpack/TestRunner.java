@@ -10,7 +10,7 @@ import io.cucumber.testng.CucumberOptions;
 import static core.TestFactory.driver;
 
 @CucumberOptions(
-        tags = "@PaymentScreen",
+        tags = "@DLUIApplication",
         features = "src/test/resources/features",
         glue = "stepdefinition",
         plugin = { "pretty", "html:target/cucumber-reports.html" },
